@@ -1,6 +1,6 @@
  # Golang CRUD with ajax
 
-This is a simple CRUD (Create, Read, Update, Delete) application built using Golang, MySQL, Jquery Ajax, and HTML CSS
+This is a simple CRUD (Create, Read, Update, Delete) application built using Golang, MySQL, Jquery Ajax, and HTML CSS Bootstrap Framework
 
 # Install package libraries
 for mysql driver
