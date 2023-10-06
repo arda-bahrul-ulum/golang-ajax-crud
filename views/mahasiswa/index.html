@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Golang Ajax CRUD</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="modalMahasiswa"
+      tabindex="-1"
+      aria-labelledby="modalMahasiswaLabel"
+      aria-hidden="true"
+    ></div>
+
+    <div class="container mt-5">
+      <div class="card shadow">
+        <div class="card-header">Data Mahasiswa</div>
+        <div class="card-body">
+          <button class="btn btn-primary add-mahasiswa shadow-sm">
+            <i class="fas fa-fw fa-solid fa-plus fa-beat"></i> Tambah Data
+          </button>
+          <table class="table table-bordered table-hover mt-3">
+            <thead>
+              <th>#</th>
+              <th>Nama Lengkap</th>
+              <th>NIM</th>
+              <th>Jenis Kelamin</th>
+              <th>Tempat Tanggal Lahir</th>
+              <th>Alamat</th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              {{ .data }}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script>
+      var siteUrl = "http://localhost:4000";
+
+      $(document).ready(function () {
+        $(".add-mahasiswa").click(function () {
+          $.get(siteUrl + "/mahasiswa/get_form", function (html) {
+            $("#modalMahasiswa").html(html).modal("show");
+          });
+        });
+
+        $(document).on("click", ".edit-mahasiswa", function () {
+          var id = $(this).attr("data-id");
+          $.get(siteUrl + "/mahasiswa/get_form?id=" + id, function (html) {
+            $("#modalMahasiswa").html(html).modal("show");
+          });
+        });
+
+        $(document).on("click", ".delete-mahasiswa", function () {
+          var id = $(this).attr("data-id");
+          Swal.fire({
+            title: "Apakah anda yakin akan menghapus data ?",
+            text: "Kamu tidak akan bisa mengembalikan data ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, delete it!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $.post(
+                siteUrl + "/mahasiswa/delete",
+                { id: id },
+                function (response) {
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  $("tbody").html(response.data);
+                },
+                "JSON"
+              );
+            }
+          });
+        });
+
+        $(document).on("submit", "#form-mahasiswa", function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: $(this).attr("method"),
+            url: $(this).attr("action"),
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: response.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              $("tbody").html(response.data);
+              $("#modalMahasiswa").modal("hide");
+            },
+            error: function (response) {
+              console.log(response);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

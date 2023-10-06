@@ -1,0 +1,19 @@
+{{ $nomor := 0 }} {{ range .mahasiswa }}
+<tr>
+  {{ $nomor = increment $nomor 1 }}
+  <td>{{ $nomor }}</td>
+  <td>{{ .NamaLengkap }}</td>
+  <td>{{ .NIM }}</td>
+  <td>{{ .JenisKelamin }}</td>
+  <td>{{ .TempatLahir }}, {{ .TanggalLahir }}</td>
+  <td>{{ .Alamat }}</td>
+  <td>
+    <button data-id="{{ .Id }}" class="btn btn-sm btn-warning edit-mahasiswa">
+      <i class="fas fa-fw fa-solid fa-pencil fa-beat"></i>
+    </button>
+    <button data-id="{{ .Id }}" class="btn btn-sm btn-danger delete-mahasiswa">
+      <i class="fas fa-fw fa-regular fa-solid fa-trash fa-beat"></i>
+    </button>
+  </td>
+</tr>
+{{ end }}

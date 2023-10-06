@@ -1,0 +1,129 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="modalMahasiswaLabel">
+        Form {{ .title }}
+      </h1>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form action="/mahasiswa/store" id="form-mahasiswa" method="post">
+        <div class="form-group">
+          <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
+          <input
+            class="form-control"
+            type="text"
+            name="nama_lengkap"
+            id="nama_lengkap"
+            value="{{ .mahasiswa.NamaLengkap }}"
+          />
+        </div>
+        <div class="form-group mt-3">
+          <label for="nim" class="form-label">NIM</label>
+          <input
+            class="form-control"
+            type="text"
+            name="nim"
+            id="nim"
+            maxlength="9"
+            value="{{ .mahasiswa.NIM}}"
+          />
+        </div>
+        <div class="form-group mt-3">
+          <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+          <select class="form-select" name="jenis_kelamin" id="jenis_kelamin">
+            <option value="">- Pilih Jenis Kelamin -</option>
+            <option
+              {{
+              if
+              eq
+              .mahasiswa.JenisKelamin
+              `L`
+              }}
+              selected
+              {{
+              end
+              }}
+              value="L"
+            >
+              Laki-Laki
+            </option>
+            <option
+              {{
+              if
+              eq
+              .mahasiswa.JenisKelamin
+              `P`
+              }}
+              selected
+              {{
+              end
+              }}
+              value="P"
+            >
+              Perempuan
+            </option>
+          </select>
+        </div>
+        <div class="form-group mt-3">
+          <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+          <input
+            class="form-control"
+            type="text"
+            name="tempat_lahir"
+            id="tempat_lahir"
+            value="{{ .mahasiswa.TempatLahir }}"
+          />
+        </div>
+        <div class="form-group mt-3">
+          <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+          <input
+            class="form-control"
+            type="date"
+            name="tanggal_lahir"
+            id="tanggal_lahir"
+            value="{{ .mahasiswa.TanggalLahir }}"
+          />
+        </div>
+        <div class="form-group mt-3">
+          <label for="alamat" class="form-label">Alamat</label>
+          <textarea class="form-control" name="alamat" id="alamat">
+{{ .mahasiswa.Alamat }}</textarea
+          >
+        </div>
+
+        <div class="modal-footer mt-4">
+          {{ if .mahasiswa.Id }}
+          <input type="hidden" value="{{ .mahasiswa.Id }}" name="id" />
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Batal
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-fw fa-solid fa-check fa-beat"></i> Update
+          </button>
+          {{ else }}
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Batal
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-fw fa-solid fa-check fa-beat"></i> Simpan
+          </button>
+          {{ end }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
