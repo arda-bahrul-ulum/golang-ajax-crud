@@ -12,6 +12,6 @@ func DBConnection() (*sql.DB, error) {
 	dbPass := ""
 	dbName := "golang_ajax_crud"
 
-	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName) 
+	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@tcp(127.0.0.1:3307)/"+dbName) 
 	return db, err
 }
