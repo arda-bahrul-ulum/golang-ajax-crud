@@ -35,4 +35,4 @@ This is a simple CRUD (Create, Read, Update, Delete) application built with Gola
     go run main.go
     ```
 
-4.  **Open your browser** and navigate to `http://localhost:4000`.
+4.  **Open your browser** and navigate to `http://localhost:4000` or `http://127.0.0.1:4000`.
